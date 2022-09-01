@@ -1,24 +1,38 @@
-import logo from './logo.svg';
+
+import { useEffect } from 'react'
 import './App.css';
+import SideMenu from './components/SideMenu';
+import { useDispatch, useSelector } from 'react-redux'
+import {fetchAssetData} from './store/fetchAssetData-http-action'
+
+import { Route, Routes, BrowserRouter as Router, } from 'react-router-dom'
+import AssetsPage from './pages/AssetsPage';
+import Dashboard from './pages/Dashboard';
+import BookingsPage from './pages/BookingsPage';
+import IncomePage from './pages/IncomePage';
+import OutComePage from './pages/OutComePage';
+import BanksPage from './pages/BanksPage';
 
 function App() {
+  const dispatch = useDispatch()
+
+
+    dispatch(fetchAssetData())
+
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <SideMenu className="App">
+      <Routes>
+      <Route path='dashboard' element={<Dashboard/>}/>
+      <Route path='assets' element={<AssetsPage/>}/>
+      <Route path='bookings' element={<BookingsPage/>} />
+      <Route path='income' element={<IncomePage/>}/>
+      <Route path='outcome' element={<OutComePage/>} />
+      <Route path='bankloans' element={<BanksPage/>} />
+      </Routes> 
+    </SideMenu>
   );
 }
 
