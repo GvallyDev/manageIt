@@ -41,7 +41,7 @@ const AddAssetTab = () => {
     
     const classes = useStyle()
     return (
-        <div>
+        
          <Box className={classes.addAssetbtnWrapper}>
            <AddHomeIcon  onClick={handleOpen} className={classes.addAssetBtn}/>
            <Modal
@@ -55,7 +55,7 @@ const AddAssetTab = () => {
            </Modal>
 
           </Box>
-        </div>
+  
     )
 }
 

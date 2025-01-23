@@ -1,0 +1,16 @@
+table{  
+    border-collapse: collapse;  
+    width: 50%;  
+    margin-bottom: 45px; 
+}  
+th,td{  
+border: 2px solid green;   
+padding: 2px;  
+}  
+
+
+.outcome-container {  
+    background-color: rgb(219, 91, 91);
+    border: 2px solid rgb(128, 0, 0);   
+    padding: 5px;  
+    }  

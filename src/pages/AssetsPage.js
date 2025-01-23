@@ -4,11 +4,15 @@ import AssetTab from '../components/AssetTab'
 
 const AssetsPage = () => {
     return (
-        <div>
-            AssetsPage
+        <>
+          AssetsPage
+        <div style={{display:'flex', justifyContent:'space-around',flexDirection:'column',margin:"16px 0 90px 0"}}>
+          
             <AssetTab/>
             <AddAssetTab/>
+          
         </div>
+        </>
     )
 }
 

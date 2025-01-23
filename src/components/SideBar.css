@@ -1,0 +1,14 @@
+.bottom-navigation{
+    background-color: #1D1C1F !important;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 79px !important;
+    justify-content: space-around !important;
+}
+.isActive svg{
+
+   color: rgb(255, 255, 255);
+}
+
+

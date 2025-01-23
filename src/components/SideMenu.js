@@ -1,9 +1,7 @@
-import {useMemo,useState} from 'react'
+import { useMemo, useState } from 'react';
+import './SideBar.css';
 import HomeIcon from '@mui/icons-material/Home';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import AnalyticsIcon from '@mui/icons-material/Analytics';
-import DataUsageIcon from '@mui/icons-material/DataUsage';
-import SettingsIcon from '@mui/icons-material/Settings';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -18,19 +16,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import { Link } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import { BottomNavigation } from '@mui/material';
+import { NavLink, useLocation } from 'react-router-dom';
 import { CreditCard, ListAlt } from '@mui/icons-material';
 
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 
 const drawerWidth = 170;
+const isMobile = window.innerWidth  < 750
 
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -98,9 +92,14 @@ const openedMixin = (theme) => ({
   );
   
 const SideMenu = ({children}) => {
-console.log(children);
+
     const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+
+  const {pathname} = useLocation()
+  const disabeled = (pathname === '/register'  || pathname ===  '/sign-in')
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -111,21 +110,31 @@ console.log(children);
   };
 
 
+const bottonNavIconsStyles = {
+color:'#878787',
+ fontSize:'30px'
+}
   const sideBar = useMemo(() => {
     return [
         {
             title: 'Dashboard',
-            icon: <HomeIcon /> ,
+            icon: <HomeIcon
+            sx={bottonNavIconsStyles}
+             /> ,
             link: "/dashboard",
         },
         {
             title: 'Assets',
-            icon: <DashboardIcon /> ,
+            icon: <DashboardIcon
+            sx={bottonNavIconsStyles}
+             /> ,
             link: "/assets",
         },
         {
             title: 'Bookings',
-            icon: <ListAlt/> ,
+            icon: <ListAlt
+            sx={bottonNavIconsStyles}
+            /> ,
             link: "/bookings",
         },
        
@@ -135,33 +144,39 @@ console.log(children);
 const sideBarBottom = useMemo(() => {
   return [
  
-      {
-          title: 'Income',
-          icon: <TrendingUpIcon/> ,
-          link: "/income",
-      },
-      {
-          title: 'Outcome',
-          icon: <TrendingDownIcon /> ,
-          link: "/outcome",
-      },
+      // {
+      //     title: 'Income',
+      //     icon: <TrendingUpIcon
+      //     sx={bottonNavIconsStyles}
+      //     /> ,
+      //     link: "/income",
+      // },
+      // {
+      //     title: 'Outcome',
+      //     icon: <TrendingDownIcon 
+      //     sx={bottonNavIconsStyles}
+      //     /> ,
+      //     link: "/outcome",
+      // },
       {
         title: 'Bank Loans',
-        icon: <CreditCard /> ,
+        icon: <CreditCard 
+        sx={bottonNavIconsStyles}
+        /> ,
         link: "/bankLoans",
     },
      
   ]
 },[])
 
-
-
-
-    return (
+if(disabeled){
+  return children
+}
+    return !isMobile ? (
          <Box sx={{ backgroundColor:'rgb(227, 242, 253)', display: 'flex',  height: '100vh' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
+      <AppBar position="fixed" open={open} sx={{ backgroundImage: 'linear-gradient(to right, #00695c, #007c91)'}}>
+        <Toolbar >
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -179,14 +194,14 @@ const sideBarBottom = useMemo(() => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
+      <Drawer  variant="permanent" open={open}>
+        <DrawerHeader sx={{ backgroundImage: 'linear-gradient(to left, #009688, #007c91)'}}>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
+        <List sx={{ backgroundImage: 'linear-gradient(to left, #009688, #007c91)'}}>
           {sideBar.map((side, index) => {
                 return (
                   <>
@@ -206,13 +221,13 @@ const sideBarBottom = useMemo(() => {
           
           )}
         </List>
-        <Divider />
-        <List>
+        
+        <List sx={{ backgroundImage: 'linear-gradient(to left, #009688, #007c91)', height:'100vh'}}>
         {sideBarBottom.map((side, index) => {
                 return (
                   <>
               <NavLink style={{all:"unset"}} key={index} to={side.link}>
-                <ListItem button key={side.title}>
+                <ListItem style={{all:"unset"}}>
                   <ListItemIcon>
                     {side.icon}
                   </ListItemIcon>
@@ -225,12 +240,52 @@ const sideBarBottom = useMemo(() => {
           )}
         </List>
       </Drawer>
-      <Box component="main" sx={{ backgroundColor:'rgb(227, 242, 253)', flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ backgroundColor:'#e5ffff', flexGrow: 1, p: 3 }}>
         <DrawerHeader />
       {children}
       </Box>
     </Box>
-    )
+    ):
+    (<>
+    
+    {children}
+    <BottomNavigation
+    className='bottom-navigation'
+      showLabels
+      value={value}
+      onChange={(event, newValue) => {
+    
+        setValue(newValue);
+      }}
+    >
+    
+      {[...sideBar,...sideBarBottom,].map(el => {
+
+        return(
+          <NavLink 
+          to={el.link}
+          className={({ isActive }) => {
+            const linkClasses = ['ee']
+            if (isActive) linkClasses.push('isActive');
+            
+            return linkClasses.join(" "); // returns "registerButton" or "registerButton active"
+          }}
+          style={{display:'flex',justifyContent:'center', alignItems:'center', width:'100%'}}
+          >
+       
+            <ListItemIcon
+            sx={{display:'flex',justifyContent:'center', alignItems:'center'}}
+            >
+              {el.icon}
+            </ListItemIcon>
+          
+          </NavLink>
+        )
+      })}
+   
+    </BottomNavigation>
+    </>)
+     
 }
 
 export default SideMenu
